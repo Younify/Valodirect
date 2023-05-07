@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="account_move_approval" model="ir.ui.view">
+        <field name="name">account_move_approval</field>
+        <field name="model">account.move.approval.wizard</field>
+        <field name="arch" type="xml">
+
+            <form>
+                <group name="main-group" string="Document">
+                    <field name="move_id"></field>
+                    <field name="message"></field>
+                </group>
+
+                <field name="move_line_ids">
+                    <tree>
+                       <field name="product_id"></field>
+                       <field name="name"></field>
+                       <field name="quantity"></field>
+                       <field name="product_uom_id"></field>
+                       <field name="product_uom_id"></field>
+                       <field name="release_to_pay_qty_status"></field>
+                       <field name="price_unit"></field>
+                       <field name="release_to_pay_unit_price_status"></field>
+                       <field name="price_subtotal"></field>
+                       <field name="price_total"></field>
+                    </tree>
+                </field>
+
+                <footer>
+                    <button name="approve" type="object" data-hotkey="c"
+                        string="Approve" class="oe_highlight success" />
+                    <button name="decline" type="object" data-hotkey="d"
+                        string="Decline" class="oe_highlight danger" />
+                </footer>
+
+            </form>
+
+        </field>
+    </record>
+
+</odoo>
