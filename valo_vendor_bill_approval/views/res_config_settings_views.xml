@@ -17,24 +17,18 @@
                             <div class="o_setting_left_pane" />
                             <div class="o_setting_right_pane">
                                 <div class="content-group">
-                                    <div class="row mt16">
-                                        <label for="vendor_bill_approvers"
-                                            class="col-lg-4 o_light_label" />
-                                        <field name="vendor_bill_approvers" widget="many2many_tags"></field>
-                                    </div>
-
+                                    
                                     <div class="row mt16">
                                         <label for="vendor_bill_unit_price_margin"
                                             class="col-lg-4 o_light_label" />
-                                        <field name="vendor_bill_unit_price_margin"
-                                            widget="percentage"></field>
+                                        <field name="vendor_bill_unit_price_margin"></field>
                                     </div>
 
                                     <div class="row mt16">
                                         <label for="vendor_bill_total_untaxed_margin"
                                             class="col-lg-4 o_light_label" />
                                         <field name="vendor_bill_total_untaxed_margin"
-                                            widget="percentage"></field>
+                                            widget="monetary" options="{'currency_field': 'currency_id'}"></field>
                                     </div>
                                 </div>
                             </div>

@@ -52,9 +52,9 @@ class AccountMoveLine(models.Model):
             if managers:
                 approvers |= managers
             else:
-                default_approvers = self.env['ir.config_parameter'].sudo().get_param('vendor_bill_approvers')
+                default_approvers = self.env['res.groups'].sudo().search([('name','=','Vendor Bill Approver (No Project)')]).users
                 if default_approvers:
-                    approvers |= managers
+                    approvers |= default_approvers
 
             line.approver_user_id = [fields.Command.set(approvers.ids)]
 
@@ -78,7 +78,7 @@ class AccountMoveLine(models.Model):
     def _can_be_paid(self):
 
         precision = self.env['decimal.precision'].precision_get('Product Unit of Measure')
-        invoice_line_tolerance = self.env['ir.config_parameter'].sudo().get_param('vendor_bill_unit_price_margin')
+        invoice_line_tolerance = self.env['ir.config_parameter'].sudo().get_param('account.vendor_bill_unit_price_margin')
 
         if not invoice_line_tolerance:
             invoice_line_tolerance = 100

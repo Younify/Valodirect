@@ -36,7 +36,7 @@ class accountSecurity(models.Model):
 
             #remove all lines that are no approver anymore
             approvers_unlink = self.approval_line_id.filtered(lambda a: a.user_id.id not in approvers.ids)
-            approvers_unlink.sudo().unlink()
+            self.env['account.move.approver'].sudo().browse(approvers_unlink.ids).sudo().unlink()
 
     def action_open_approve_lines_wizard(self):
         #this will return a wizard with the lines to approve and option to log a note
@@ -98,7 +98,7 @@ class accountSecurity(models.Model):
     
     def _compute_release_to_pay(self):
         records = self
-        invoice_tolerance = self.env['ir.config_parameter'].sudo().get_param('vendor_bill_total_untaxed_margin')
+        invoice_tolerance = self.env['ir.config_parameter'].sudo().get_param('account.vendor_bill_total_untaxed_margin')
         if self.env.context.get('module') == 'account_3way_match':
             # on module installation we set 'no' for all paid bills and other non relevant records at once
             records = records.filtered(lambda r: r.payment_state != 'paid' and r.move_type in ('in_invoice', 'in_refund'))
@@ -144,7 +144,7 @@ class accountSecurity(models.Model):
 
             difference = total_price_untaxed_bill - total_price_untaxed_po
             if total_price_untaxed_po != 0:
-                margin = (difference / total_price_untaxed_po) * 100
+                margin = difference
                 margin = abs(margin)
                 if  margin <= invoice_tolerance:
                     invoice.release_to_pay = 'yes'
@@ -165,6 +165,18 @@ class accountSecurity(models.Model):
             move._compute_release_to_pay()
         return res
     
+    def action_restart_approval(self):
+        for move in self:
+            for line in move.invoice_line_ids:
+                line.release_to_pay_unit_price_status = 'waiting'
+                line.release_to_pay_qty_status = 'waiting'
+                line.approved_by_user_id = False
+                line.approval_date = False
+                line._can_be_paid()
+                line.update_approval_list()
+            move._compute_release_to_pay()
+            move.message_post(body='Approval restarted')
+
     def action_post(self):
         res = super().action_post()
         self.invoice_line_ids.update_approval_list()

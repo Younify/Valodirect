@@ -7,6 +7,5 @@ from odoo import api, fields, models, _
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    vendor_bill_approvers = fields.Many2many('res.users',string='Vendor Bill Approvers')
-    vendor_bill_unit_price_margin = fields.Float('Vendor Bill Unit Price Margin')
-    vendor_bill_total_untaxed_margin = fields.Float('Vendor Bill Total Untaxed Margin')
+    vendor_bill_unit_price_margin = fields.Float('Vendor Bill Unit Price Margin [%]', config_parameter='account.vendor_bill_approvers',help="0.1 = 10%")
+    vendor_bill_total_untaxed_margin = fields.Float('Vendor Bill Total Untaxed Margin', config_parameter='account.vendor_bill_approvers')

@@ -11,6 +11,9 @@
                 <button name="button_draft" position="after">
                     <button name="action_open_approve_lines_wizard" string="Approve" type="object"
                         class="oe_highlight" attrs="{'invisible': [('state', '!=', 'posted')]}"></button>
+
+                    <button name="action_restart_approval" string="Restart Approval" type="object" groups="valo_vendor_bill_approval.group_account_approver"
+                        class="oe_highlight" attrs="{'invisible': [('state', '!=', 'posted')]}"></button>
                 </button>
 
                 <page name="other_info" position="before">
@@ -58,15 +61,19 @@
         <record id="account_invoice_filter_inherit_account_3way_match_valo" model="ir.ui.view">
             <field name="name">account.move.view.form.inherit</field>
             <field name="model">account.move</field>
-            <field name="inherit_id" ref="account_3way_match.account_invoice_filter_inherit_account_3way_match"/>
+            <field name="inherit_id"
+                ref="account_3way_match.account_invoice_filter_inherit_account_3way_match" />
             <field name="arch" type="xml">
 
                 <filter name="exception" position="replace">
-                    <filter name="waiting_approval" string="Waiting Approval" domain="[('release_to_pay', '=', 'waiting'),('state','=','posted')]" context="{'group_by': 'pending_approvers'}" />
-                    <filter name="declined_approval" string="Declined Approval" domain="[('release_to_pay', '=', 'no'),('state','=','posted'),('payment_state','in', ('not_paid','partial'))]" />
+                    <filter name="waiting_approval" string="Waiting Approval"
+                        domain="[('release_to_pay', '=', 'waiting'),('state','=','posted')]"
+                        context="{'group_by': 'pending_approvers'}" />
+                    <filter name="declined_approval" string="Declined Approval"
+                        domain="[('release_to_pay', '=', 'no'),('state','=','posted'),('payment_state','in', ('not_paid','partial'))]" />
                 </filter>
-                
-                
+
+
             </field>
         </record>
 
