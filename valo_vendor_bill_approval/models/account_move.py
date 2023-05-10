@@ -143,12 +143,15 @@ class accountSecurity(models.Model):
             total_price_untaxed_bill = invoice.amount_untaxed
 
             difference = total_price_untaxed_bill - total_price_untaxed_po
-            margin = (difference / total_price_untaxed_po) * 100
-            margin = abs(margin)
-            if  margin <= invoice_tolerance:
-                invoice.release_to_pay = 'yes'
-                #all invoice lines can also be put yes now because total is fine
-                invoice.invoice_line_ids.release_to_pay_unit_price_status ='yes'
+            if total_price_untaxed_po == 0:
+                margin = (difference / total_price_untaxed_po) * 100
+                margin = abs(margin)
+                if  margin <= invoice_tolerance:
+                    invoice.release_to_pay = 'yes'
+                    #all invoice lines can also be put yes now because total is fine
+                    invoice.invoice_line_ids.release_to_pay_unit_price_status ='yes'
+            
+            invoice.release_to_pay = 'no'
 
     def button_draft(self):
         res = super().button_draft()

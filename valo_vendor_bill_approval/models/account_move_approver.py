@@ -30,4 +30,4 @@ class AccountMoveApprover(models.Model):
         for approver in self:
             my_waiting_lines = approver.move_id.invoice_line_ids.filtered(lambda l: approver.user_id.id in l.approver_user_id.ids)
             my_waiting_lines = my_waiting_lines.filtered(lambda l: l.release_to_pay_unit_price_status == 'waiting' or l.release_to_pay_qty_status == 'waiting')
-            approver.all_lines_reviewed = False if my_waiting_lines else True
+            approver.sudo().all_lines_reviewed = False if my_waiting_lines else True

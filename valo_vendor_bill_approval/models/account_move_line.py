@@ -116,11 +116,12 @@ class AccountMoveLine(models.Model):
 
             #Check unit price bill in tolerance
             difference = unit_price_bill - unit_price_po
-            margin = (difference / unit_price_po) * 100
-            margin = abs(margin)
+            if unit_price_po == 0:
+                margin = (difference / unit_price_po) * 100
+                margin = abs(margin)
 
-            if margin <= invoice_line_tolerance:
-                unit_price_ok = True
+                if margin <= invoice_line_tolerance:
+                    unit_price_ok = True
             
             #Check for qty
             if po_line.product_id.purchase_method == 'purchase': # 'on ordered quantities'
