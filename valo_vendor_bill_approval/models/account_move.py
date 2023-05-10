@@ -143,7 +143,7 @@ class accountSecurity(models.Model):
             total_price_untaxed_bill = invoice.amount_untaxed
 
             difference = total_price_untaxed_bill - total_price_untaxed_po
-            if total_price_untaxed_po == 0:
+            if total_price_untaxed_po != 0:
                 margin = (difference / total_price_untaxed_po) * 100
                 margin = abs(margin)
                 if  margin <= invoice_tolerance:

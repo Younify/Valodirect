@@ -116,7 +116,7 @@ class AccountMoveLine(models.Model):
 
             #Check unit price bill in tolerance
             difference = unit_price_bill - unit_price_po
-            if unit_price_po == 0:
+            if unit_price_po != 0:
                 margin = (difference / unit_price_po) * 100
                 margin = abs(margin)
 
