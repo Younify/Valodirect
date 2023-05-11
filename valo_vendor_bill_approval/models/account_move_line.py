@@ -28,7 +28,7 @@ class AccountMoveLine(models.Model):
     def update_approval_list(self):
         for line in self:
 
-            if not isinstance(type(line.id), int):
+            if not type(line.id) == int:
                 continue
 
             approvers = line.manual_approver_user_id
