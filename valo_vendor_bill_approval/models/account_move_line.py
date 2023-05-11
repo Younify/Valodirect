@@ -27,6 +27,10 @@ class AccountMoveLine(models.Model):
     @api.depends('analytic_line_ids')
     def update_approval_list(self):
         for line in self:
+
+            if not isinstance(type(line.id), int):
+                continue
+
             approvers = line.manual_approver_user_id
             managers = None
             #search related project

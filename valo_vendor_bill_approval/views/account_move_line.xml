@@ -24,6 +24,7 @@
                     <field name="approval_date" />
                 </xpath>
 
+
                 <xpath expr="//field[@name='line_ids']//tree//field[@name='account_type']"
                     position="after">
                     <field name="approver_user_id" invisible="1" />
