@@ -34,7 +34,16 @@ class AccountMoveLine(models.Model):
             approvers = line.manual_approver_user_id
             managers = None
             #search related project
-            analytic_ids = line.analytic_line_ids.account_id.ids
+            analytic_ids = []
+
+            if line.analytic_distribution:
+                line_analytic_keys = line.analytic_distribution.keys()
+                line_analytic_ids = []
+                for key in line_analytic_keys:
+                    line_analytic_ids.append(int(key))
+                
+                analytic_ids += line_analytic_ids
+            
 
             po_line = line.purchase_line_id
             if po_line.analytic_distribution:
