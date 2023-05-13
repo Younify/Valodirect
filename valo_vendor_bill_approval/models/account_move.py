@@ -9,7 +9,7 @@ class accountSecurity(models.Model):
     approval_line_id = fields.One2many(comodel_name='account.move.approver',inverse_name='move_id')
     pending_approvers = fields.Many2many(comodel_name='res.users',relation='account_move_approver_rel',string='Pending Approvers',store=True,compute='_compute_pending_approvers')
     release_to_pay = fields.Selection(selection_add=[
-        ('waiting', 'Waiting Approval')
+        ('waiting', 'Waiting')
         ])
 
     @api.depends('invoice_line_ids.release_to_pay_unit_price_status','invoice_line_ids.release_to_pay_qty_status','invoice_line_ids.approver_user_id','invoice_line_ids.approval_date')
@@ -42,13 +42,14 @@ class accountSecurity(models.Model):
         #this will return a wizard with the lines to approve and option to log a note
         self.ensure_one()
 
+        
+
         wizard_id = self.env['account.move.approval.wizard'].create({
             'user_id':self.env.user.id,
             'move_id':self.id
         })
 
-        wizard_id._compute_account_move_line_ids()
-        if not len(wizard_id.move_line_ids):
+        if not len(wizard_id.line_ids):
             raise UserError('No accounting lines to approve')
 
         return {
@@ -99,6 +100,12 @@ class accountSecurity(models.Model):
     def _compute_release_to_pay(self):
         records = self
         invoice_tolerance = self.env['ir.config_parameter'].sudo().get_param('account.vendor_bill_total_untaxed_margin')
+
+        if not invoice_tolerance:
+            invoice_tolerance = 0
+        else:
+            invoice_tolerance = float(invoice_tolerance)
+
         if self.env.context.get('module') == 'account_3way_match':
             # on module installation we set 'no' for all paid bills and other non relevant records at once
             records = records.filtered(lambda r: r.payment_state != 'paid' and r.move_type in ('in_invoice', 'in_refund'))

@@ -21,7 +21,7 @@
                                     <div class="row mt16">
                                         <label for="vendor_bill_unit_price_margin"
                                             class="col-lg-4 o_light_label" />
-                                        <field name="vendor_bill_unit_price_margin"></field>
+                                        <field name="vendor_bill_unit_price_margin" widget="percentage"></field>
                                     </div>
 
                                     <div class="row mt16">

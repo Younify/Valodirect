@@ -7,13 +7,13 @@ class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
     release_to_pay_unit_price_status = fields.Selection([
-        ('waiting','Waiting Approval'),
+        ('waiting','Waiting'),
         ('yes','Yes'),
         ('no','No')
     ],'Release Pay Unit Status', readonly=True)
 
     release_to_pay_qty_status = fields.Selection([
-        ('waiting','Waiting Approval'),
+        ('waiting','Waiting'),
         ('yes','Yes'),
         ('no','No')
     ],'Release Pay Qty Status', readonly=True)
@@ -94,7 +94,9 @@ class AccountMoveLine(models.Model):
         invoice_line_tolerance = self.env['ir.config_parameter'].sudo().get_param('account.vendor_bill_unit_price_margin')
 
         if not invoice_line_tolerance:
-            invoice_line_tolerance = 100
+            invoice_line_tolerance = 0
+        else:
+            invoice_line_tolerance = float(invoice_line_tolerance) * 100
 
         for invoice_line in self:
             po_line = invoice_line.purchase_line_id
@@ -135,6 +137,8 @@ class AccountMoveLine(models.Model):
 
                 if margin <= invoice_line_tolerance:
                     unit_price_ok = True
+            else:
+                unit_price_ok = True
             
             #Check for qty
             if po_line.product_id.purchase_method == 'purchase': # 'on ordered quantities'

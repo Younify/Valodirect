@@ -6,7 +6,7 @@ class AccountMoveApprover(models.Model):
     _description = 'Account Move Approver'
 
     release_to_pay_status = fields.Selection([
-        ('waiting','Waiting Approval'),
+        ('waiting','Waiting'),
         ('yes','Yes'),
         ('no','No')
     ],'Should be paid', readonly=True)
