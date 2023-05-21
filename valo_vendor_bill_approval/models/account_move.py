@@ -79,17 +79,10 @@ class accountSecurity(models.Model):
 
         #if the user is admin approver we mark override
         if self.env.user.has_group('valo_vendor_bill_approval.group_account_approver'):
-            if approved:
-                approval_lines = self.approval_line_id.filtered(lambda a: a.release_to_pay_status in ('waiting','no'))
-                approval_lines.sudo().approval_date = datetime.now()
-                approval_lines.sudo().release_to_pay_status = 'yes'
-                approval_lines.sudo().override = True
-            else:
-                approval_lines = self.approval_line_id.filtered(lambda a: a.release_to_pay_status in ('waiting','yes'))
-                approval_lines.sudo().approval_date = datetime.now()
-                approval_lines.sudo().release_to_pay_status = 'no'
-                approval_lines.sudo().override = True
 
+            approver_ids = lines.approver_user_id.ids
+            move_approvers = self.approval_line_id.filtered(lambda l: l.user_id.id in approver_ids)
+            move_approvers.override = True
 
         #log a note that its has been approved or not
         if approved:
@@ -97,6 +90,7 @@ class accountSecurity(models.Model):
         else:
             self.message_post(body='Document declined')
     
+    @api.depends('invoice_line_ids.release_to_pay_unit_price_status','invoice_line_ids.release_to_pay_qty_status')
     def _compute_release_to_pay(self):
         records = self
         invoice_tolerance = self.env['ir.config_parameter'].sudo().get_param('account.vendor_bill_total_untaxed_margin')
@@ -182,9 +176,14 @@ class accountSecurity(models.Model):
                 line._can_be_paid()
                 line.update_approval_list()
             move._compute_release_to_pay()
+
+            move.approval_line_id.release_to_pay_status = 'waiting'
+            move.approval_line_id.override = False
+            move.approval_line_id.approval_date = False
+
             move.message_post(body='Approval restarted')
 
     def action_post(self):
         res = super().action_post()
-        self.invoice_line_ids.update_approval_list()
+        self.action_restart_approval()
         return res

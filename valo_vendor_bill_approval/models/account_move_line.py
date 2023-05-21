@@ -108,6 +108,8 @@ class AccountMoveLine(models.Model):
             if invoice_line.release_to_pay_qty_status not in ('yes','no'):
                 invoice_line.release_to_pay_qty_status = 'waiting'
 
+                
+
             unit_price_ok = False
             qty_ok = False
 
