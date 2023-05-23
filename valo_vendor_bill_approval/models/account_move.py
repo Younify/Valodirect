@@ -152,6 +152,7 @@ class accountSecurity(models.Model):
                     invoice.release_to_pay = 'yes'
                     #all invoice lines can also be put yes now because total is fine
                     invoice.invoice_line_ids.release_to_pay_unit_price_status ='yes'
+                    continue
             
             invoice.release_to_pay = 'no'
 
