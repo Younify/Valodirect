@@ -100,7 +100,7 @@
                 <filter name="exception" position="replace">
 
                     <filter name="waiting_approval" string="Waiting Approval"
-                        domain="[('release_to_pay', '=', 'waiting'),('state','=','posted'),('pending_approvers','!=',FALSE)]"
+                        domain="[('release_to_pay', '=', 'waiting'),('state','=','posted'),('pending_approvers','!=',False)]"
                         context="{'group_by': 'pending_approvers'}" />
 
                     <filter name="declined_approval" string="Declined Approval"
