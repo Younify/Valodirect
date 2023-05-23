@@ -50,10 +50,10 @@
                             <tree>
                                 <field name="user_id"></field>
 
-                                <field name="release_to_pay_status" widget="badge"
+                                <!-- <field name="release_to_pay_status" widget="badge"
                                         decoration-danger="release_to_pay_status == 'no'"
                                         decoration-warning="release_to_pay_status == 'waiting'"
-                                        decoration-success="release_to_pay_status == 'yes'"/>
+                                        decoration-success="release_to_pay_status == 'yes'"/> -->
 
                                 <field name="approval_date"></field>
                                 <field name="override"></field>
@@ -98,9 +98,11 @@
             <field name="arch" type="xml">
 
                 <filter name="exception" position="replace">
+
                     <filter name="waiting_approval" string="Waiting Approval"
-                        domain="[('release_to_pay', '=', 'waiting'),('state','=','posted')]"
+                        domain="[('release_to_pay', '=', 'waiting'),('state','=','posted'),('pending_approvers','!=',FALSE)]"
                         context="{'group_by': 'pending_approvers'}" />
+
                     <filter name="declined_approval" string="Declined Approval"
                         domain="[('release_to_pay', '=', 'no'),('state','=','posted'),('payment_state','in', ('not_paid','partial'))]" />
                 </filter>
