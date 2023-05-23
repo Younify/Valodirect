@@ -114,11 +114,13 @@ class accountSecurity(models.Model):
             yes_line = invoice.invoice_line_ids.filtered(lambda l: l.release_to_pay_unit_price_status == 'yes' and l.release_to_pay_qty_status == 'yes')
             if len(yes_line) == len(invoice.invoice_line_ids):
                 invoice.release_to_pay = 'yes'
+                continue
 
             #Check if there is one line with payment status no
             no_line = invoice.invoice_line_ids.filtered(lambda l: l.release_to_pay_unit_price_status == 'no' or l.release_to_pay_qty_status == 'no')
             if no_line:
                 invoice.release_to_pay = 'no'
+                continue
 
             #Check if there is one line with waiting status
             waiting_line = invoice.invoice_line_ids.filtered(lambda l: l.release_to_pay_unit_price_status == 'waiting' or l.release_to_pay_qty_status == 'waiting')
@@ -153,8 +155,8 @@ class accountSecurity(models.Model):
                     #all invoice lines can also be put yes now because total is fine
                     invoice.invoice_line_ids.release_to_pay_unit_price_status ='yes'
                     continue
-            
-            invoice.release_to_pay = 'no'
+        
+            invoice.release_to_pay = 'waiting'  
 
     def button_draft(self):
         res = super().button_draft()
