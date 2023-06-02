@@ -12,10 +12,15 @@
 
                 <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='quantity']"
                     position="after">
+
+                    <field name="move_type" invisible="1" />
+
                     <field name="release_to_pay_qty_status" optional="hide" widget="badge"
                         decoration-danger="release_to_pay_qty_status == 'no'"
                         decoration-warning="release_to_pay_qty_status == 'waiting'"
-                        decoration-success="release_to_pay_qty_status == 'yes'"/>
+                        decoration-success="release_to_pay_qty_status == 'yes'"
+                        attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}"
+                        />
                 </xpath>
 
                 <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='price_unit']"
@@ -24,12 +29,14 @@
                     <field name="release_to_pay_unit_price_status" optional="hide" widget="badge"
                         decoration-danger="release_to_pay_unit_price_status == 'no'"
                         decoration-warning="release_to_pay_unit_price_status == 'waiting'"
-                        decoration-success="release_to_pay_unit_price_status == 'yes'"/>
+                        decoration-success="release_to_pay_unit_price_status == 'yes'"
+                        attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}"
+                        />
                 
-                    <field name="approver_user_id" optional="hide" widget="many2many_tags" />
-                    <field name="manual_approver_user_id" optional="hide" widget="many2many_tags" />
-                    <field name="approved_by_user_id" />
-                    <field name="approval_date" />
+                    <field name="approver_user_id" optional="hide" widget="many2many_tags" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}" />
+                    <field name="manual_approver_user_id" optional="hide" widget="many2many_tags" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}" />
+                    <field name="approved_by_user_id" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}" />
+                    <field name="approval_date" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}" />
                 </xpath>
 
 

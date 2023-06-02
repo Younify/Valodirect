@@ -7,7 +7,7 @@
     'description': "",
     'qweb': [],
     'demo': [],
-    'depends': ['account', 'account_3way_match'],
+    'depends': ['account','analytic', 'account_3way_match'],
     'data': [
         'security/account_security.xml',
         'security/ir.model.access.csv',

@@ -5,21 +5,21 @@
         <record id="view_invoice_tree_approval" model="ir.ui.view">
             <field name="name">view_invoice_tree_approval</field>
             <field name="model">account.move</field>
-            <field name="inherit_id" ref="account.view_invoice_tree" />
+            <field name="inherit_id" ref="account.view_in_invoice_bill_tree" />
             <field name="arch" type="xml">
 
-            <field name="state" position="after">
-                
-                  <field name="release_to_pay" widget="badge" optional="hide"
-                                        decoration-danger="release_to_pay == 'no'"
-                                        decoration-warning="release_to_pay == 'waiting'"
-                                        decoration-success="release_to_pay == 'yes'"/>
+                <field name="state" position="after">
+
+                    <field name="release_to_pay" widget="badge" optional="hide"
+                        decoration-danger="release_to_pay == 'no'"
+                        decoration-warning="release_to_pay == 'waiting'"
+                        decoration-success="release_to_pay == 'yes'" />
+
+                </field>
 
             </field>
 
-            </field>
-
-            </record>
+        </record>
 
         <record id="view_move_form_approval" model="ir.ui.view">
             <field name="name">view_move_form_approval</field>
@@ -29,23 +29,28 @@
 
                 <button name="button_draft" position="after">
                     <button name="action_open_approve_lines_wizard" string="Approve" type="object"
-                        class="oe_highlight" attrs="{'invisible': [('state', '!=', 'posted')]}"></button>
+                        class="oe_highlight"
+                        attrs="{'invisible': ['|',('state', '!=', 'posted'),('move_type', 'not in', ('in_invoice', 'in_refund'))]}"></button>
 
-                    <button name="action_restart_approval" string="Restart Approval" type="object" groups="valo_vendor_bill_approval.group_account_approver"
-                        class="oe_highlight" attrs="{'invisible': [('state', '!=', 'posted')]}"></button>
+                    <button name="action_restart_approval" string="Restart Approval" type="object"
+                        groups="valo_vendor_bill_approval.group_account_approver"
+                        class="oe_highlight"
+                        attrs="{'invisible': ['|',('state', '!=', 'posted'),('move_type', 'not in', ('in_invoice', 'in_refund'))]}"></button>
                 </button>
 
-                  <field name="invoice_vendor_bill_id" position="after">
+                <field name="invoice_vendor_bill_id" position="after">
                     <field name="move_type" invisible="1" />
-                    <field name="release_to_pay" widget="badge" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}"
+                    <field name="release_to_pay" widget="badge"
+                        attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}"
                         decoration-danger="release_to_pay == 'no'"
                         decoration-warning="release_to_pay == 'waiting'"
-                        decoration-success="release_to_pay == 'yes'"/>
+                        decoration-success="release_to_pay == 'yes'" />
                 </field>
 
                 <page name="other_info" position="before">
 
-                    <page name="approvers" string="Approvers">
+                    <page name="approvers" string="Approvers"
+                        attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}">
                         <field name="approval_line_id">
                             <tree>
                                 <field name="user_id"></field>
@@ -74,7 +79,7 @@
             <field name="inherit_id" ref="account_3way_match.account_invoice_form_inherit" />
             <field name="arch" type="xml">
 
-                
+
                 <xpath expr="//label[@for='release_to_pay_manual']" position="replace">
                 </xpath>
                 <xpath expr="//label[@for='force_release_to_pay']" position="replace">
@@ -84,7 +89,8 @@
                 <field name="force_release_to_pay" position="replace" />
                 <field name="to_check" position="replace" />
 
-                <xpath expr="//notebook//page[@name='other_info']//div[@class='o_row']" position="replace"></xpath>
+                <xpath expr="//notebook//page[@name='other_info']//div[@class='o_row']"
+                    position="replace"></xpath>
 
 
             </field>
@@ -100,7 +106,7 @@
                 <filter name="exception" position="replace">
 
                     <filter name="waiting_approval" string="Waiting Approval"
-                        domain="[('release_to_pay', '=', 'waiting'),('state','=','posted')]"
+                        domain="[('release_to_pay', '=', 'waiting'),('state','=','posted'),('pending_approvers','!=',False)]"
                         context="{'group_by': 'pending_approvers'}" />
 
 

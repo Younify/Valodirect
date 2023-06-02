@@ -5,7 +5,7 @@ from datetime import datetime
 
 class accountSecurity(models.Model):
     _inherit = 'account.move'
-
+    
     approval_line_id = fields.One2many(comodel_name='account.move.approver',inverse_name='move_id')
     pending_approvers = fields.Many2many(comodel_name='res.users',relation='account_move_approver_rel',string='Pending Approvers',store=True,compute='_compute_pending_approvers')
     release_to_pay = fields.Selection(selection_add=[
