@@ -14,6 +14,7 @@
         'views/account_move_line.xml',
         'views/account_move.xml',
         'views/res_config_settings_views.xml',
+        'views/product_template.xml',
         'wizards/account_move_approval_wizard.xml'
         ],
     'installable': True,
