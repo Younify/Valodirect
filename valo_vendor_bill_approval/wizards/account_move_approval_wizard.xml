@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="account_move_approval" model="ir.ui.view">
+        <field name="name">account_move_approval</field>
+        <field name="model">account.move.approval.wizard</field>
+        <field name="arch" type="xml">
+
+            <form>
+                <group name="main-group" string="Document">
+                    <field name="move_id"></field>
+                    <field name="message"></field>
+                </group>
+
+                <field name="line_ids">
+                    <tree editable="top">
+                       <field name="include_in_approval_selection"></field>
+                       <field name="product_id" readonly="1"></field>
+                       <field name="name" readonly="1"></field>
+                       <field name="quantity" readonly="1"></field>
+                       <field name="product_uom_id" readonly="1"></field>
+                       
+                       <field name="release_to_pay_qty_status" optional="hide" widget="badge"
+                        decoration-danger="release_to_pay_qty_status == 'no'"
+                        decoration-warning="release_to_pay_qty_status == 'waiting'"
+                        decoration-success="release_to_pay_qty_status == 'yes'"/>
+
+                       <field name="price_unit" readonly="1"></field>
+                       
+                       <field name="release_to_pay_unit_price_status" optional="hide" widget="badge" readonly="1"
+                        decoration-danger="release_to_pay_unit_price_status == 'no'"
+                        decoration-warning="release_to_pay_unit_price_status == 'waiting'"
+                        decoration-success="release_to_pay_unit_price_status == 'yes'"/>
+
+                       <field name="price_subtotal" readonly="1"></field>
+                       <field name="price_total" readonly="1"></field>
+                       <field name="approver_user_id" widget="many2many_tags" readonly="1"></field>
+                    </tree>
+                </field>
+
+                <footer>
+                    <button name="approve" type="object" data-hotkey="c"
+                        string="Approve" class="oe_highlight success" />
+                    <button name="decline" type="object" data-hotkey="d"
+                        string="Decline" class="oe_highlight danger" />
+                </footer>
+
+            </form>
+
+        </field>
+    </record>
+
+</odoo>
