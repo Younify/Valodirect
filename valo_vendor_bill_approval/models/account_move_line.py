@@ -24,8 +24,15 @@ class AccountMoveLine(models.Model):
     approved_by_user_id = fields.Many2one('res.users', readonly=True)
     approval_date = fields.Datetime('Approval date', readonly=True)
 
+    @api.onchange('product_id')
+    def onchange_product_id_analytic(self):
+        for line in self:
+            if line.product_id.analytic_account_id:
+                line.analytic_distribution =  {line.product_id.analytic_account_id.id:100}
+
     @api.depends('analytic_line_ids')
     def update_approval_list(self):
+        print(self)
         for line in self:
 
             if not type(line.id) == int:
@@ -71,8 +78,8 @@ class AccountMoveLine(models.Model):
 
             line.approver_user_id = [fields.Command.set(approvers.ids)]
 
-        #upddate approval list
-        self.move_id.update_approval_line_id()
+            #upddate approval list
+            line.move_id.update_approval_line_id()
 
     def approve_line(self):
         for line in self:

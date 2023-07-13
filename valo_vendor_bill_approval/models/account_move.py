@@ -181,9 +181,9 @@ class accountSecurity(models.Model):
                 line.update_approval_list()
             move._compute_release_to_pay()
 
-            move.approval_line_id.release_to_pay_status = 'waiting'
-            move.approval_line_id.override = False
-            move.approval_line_id.approval_date = False
+            move.sudo().approval_line_id.release_to_pay_status = 'waiting'
+            move.sudo().approval_line_id.override = False
+            move.sudo().approval_line_id.approval_date = False
 
             move.message_post(body='Approval restarted')
 
