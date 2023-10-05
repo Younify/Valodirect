@@ -1,58 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <data>
-
 
         <record id="account_move_line_approval" model="ir.ui.view">
             <field name="name">account_move_line_approval</field>
             <field name="model">account.move</field>
-            <field name="inherit_id" ref="account.view_move_form" />
+            <field name="inherit_id" ref="account.view_move_form"/>
             <field name="arch" type="xml">
 
                 <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='quantity']"
-                    position="after">
+                       position="after">
 
-                    <field name="move_type" invisible="1" />
+                    <field name="move_type" invisible="1"/>
 
                     <field name="release_to_pay_qty_status" optional="hide" widget="badge"
-                        decoration-danger="release_to_pay_qty_status == 'no'"
-                        decoration-warning="release_to_pay_qty_status == 'waiting'"
-                        decoration-success="release_to_pay_qty_status == 'yes'"
-                        attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}"
-                        />
+                           decoration-danger="release_to_pay_qty_status == 'no'"
+                           decoration-warning="release_to_pay_qty_status == 'waiting'"
+                           decoration-success="release_to_pay_qty_status == 'yes'"
+                           attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}"
+                    />
                 </xpath>
 
                 <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='price_unit']"
-                    position="after">
+                       position="after">
 
                     <field name="release_to_pay_unit_price_status" optional="hide" widget="badge"
-                        decoration-danger="release_to_pay_unit_price_status == 'no'"
-                        decoration-warning="release_to_pay_unit_price_status == 'waiting'"
-                        decoration-success="release_to_pay_unit_price_status == 'yes'"
-                        attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}"
-                        />
-                
-                    <field name="approver_user_id" optional="hide" widget="many2many_tags" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}" />
-                    <field name="manual_approver_user_id" optional="hide" widget="many2many_tags" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}" />
-                    <field name="approved_by_user_id" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}" />
-                    <field name="approval_date" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}" />
+                           decoration-danger="release_to_pay_unit_price_status == 'no'"
+                           decoration-warning="release_to_pay_unit_price_status == 'waiting'"
+                           decoration-success="release_to_pay_unit_price_status == 'yes'"
+                           attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}"
+                    />
+
+                    <field name="approver_user_id" optional="hide" widget="many2many_tags"
+                           attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}"/>
+                    <field name="manual_approver_user_id" optional="hide" widget="many2many_tags"
+                           attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}"/>
+                    <field name="approved_by_user_id"
+                           attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}"/>
+                    <field name="approval_date"
+                           attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}"/>
                 </xpath>
 
 
                 <xpath expr="//field[@name='line_ids']//tree//field[@name='account_type']"
-                    position="after">
-                    <field name="approver_user_id" invisible="1" />
-                    <field name="manual_approver_user_id" invisible="1" />
-                    <field name="release_to_pay_unit_price_status" invisible="1" />
-                    <field name="release_to_pay_qty_status" invisible="1" />
-                    <field name="approved_by_user_id" invisible="1" />
-                    <field name="approval_date" invisible="1" />
+                       position="after">
+                    <field name="approver_user_id" invisible="1"/>
+                    <field name="manual_approver_user_id" invisible="1"/>
+                    <field name="release_to_pay_unit_price_status" invisible="1"/>
+                    <field name="release_to_pay_qty_status" invisible="1"/>
+                    <field name="approved_by_user_id" invisible="1"/>
+                    <field name="approval_date" invisible="1"/>
 
                 </xpath>
             </field>
         </record>
 
     </data>
-
 </odoo>
