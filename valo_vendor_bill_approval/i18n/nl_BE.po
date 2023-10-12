@@ -356,3 +356,8 @@ msgstr "Goedgekeurd"
 #: model:ir.model,name:valo_vendor_bill_approval.model_account_move_approval_wizard_line
 msgid "account.move.approval.wizard.line"
 msgstr ""
+
+#. module: valo_vendor_bill_approval
+#: model:account.invoice,name:report_saleorder_document_inherit
+msgid "th_description"
+msgstr "Omschrijving"

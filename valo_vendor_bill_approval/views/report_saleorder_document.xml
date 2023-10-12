@@ -5,26 +5,24 @@
         <xpath expr="//thead" position="replace">
             <thead style="display: table-row-group">
                 <tr>
-                    <th name="th_description" class="text-start table-header-font" translate="1">Description</th>
-                    <th name="th_quantity" class="text-end table-header-font" translate="1">Quantity</th>
-                    <th name="th_priceunit" class="text-end table-header-font" translate="1">Unit Price</th>
-                    <th name="th_discount" t-if="display_discount" class="text-end table-header-font" translate="1">
+                    <th name="th_description" class="text-start table-header-font">Description</th>
+                    <th name="th_quantity" class="text-end table-header-font">Quantity</th>
+                    <th name="th_priceunit" class="text-end table-header-font">Unit Price</th>
+                    <th name="th_discount" t-if="display_discount" class="text-end table-header-font">
                         <span>Disc.%</span>
                     </th>
-                    <th name="th_taxes" class="text-end" translate="1">Taxes</th>
+                    <th name="th_taxes" class="text-end">Taxes</th>
                     <th name="th_subtotal" class="text-end table-header-font">
-                        <span groups="account.group_show_line_subtotals_tax_excluded" translate="1">Amount</span>
-                        <span groups="account.group_show_line_subtotals_tax_included" translate="1">Total Price</span>
+                        <span groups="account.group_show_line_subtotals_tax_excluded">Amount</span>
+                        <span groups="account.group_show_line_subtotals_tax_included">Total Price</span>
                     </th>
                 </tr>
             </thead>
             <style>
-                .table-header-font {
-                font-size: 15px !important;
-                }
+                .table-header-font{
+                font-size: 15px !important;}
             </style>
         </xpath>
-
 
         <xpath expr="//tbody" position="replace">
             <tbody class="invoice_tbody">
