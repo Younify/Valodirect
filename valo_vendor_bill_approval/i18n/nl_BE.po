@@ -357,26 +357,3 @@ msgstr "Goedgekeurd"
 msgid "account.move.approval.wizard.line"
 msgstr ""
 
-#. module: valo_vendor_bill_approval
-#: view:ir.model,name:account.report_invoice_document.valodirect_report_saleorder_document_inherit
-
-msgid "Description"
-msgstr "Omschrijving"
-
-msgid "Quantity"
-msgstr "Aanta"
-
-msgid "Unit Price"
-msgstr "Prijs"
-
-msgid "Disc.%"
-msgstr "Korting"
-
-msgid "Taxes"
-msgstr "Belastingen"
-
-msgid "Amount"
-msgstr ""
-
-msgid "Total Price"
-msgstr "Bedrag"
