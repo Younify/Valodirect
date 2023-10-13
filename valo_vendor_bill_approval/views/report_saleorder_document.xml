@@ -91,10 +91,11 @@
             </tbody>
             <style>
                 .line-font{
-                font-size: 13px !important;
+                font-size: 12px !important;
                 }
                 .section-note-font{
                 font-size: 14px !important;
+                color: black !important;
                 }
             </style>
         </xpath>
