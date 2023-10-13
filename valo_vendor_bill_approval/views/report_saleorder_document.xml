@@ -38,25 +38,25 @@
 
                     <tr t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
                         <t t-if="line.display_type == 'product'" name="account_invoice_line_accountable">
-                            <td name="account_invoice_line_name" class="small-font">
+                            <td name="account_invoice_line_name" class="line-font">
                                 <span t-field="line.name" t-options="{'widget': 'text'}"/>
                             </td>
-                            <td class="text-end small-font">
+                            <td class="text-end line-font">
                                 <span t-field="line.quantity"/>
                                 <span t-field="line.product_uom_id" groups="uom.group_uom"/>
                             </td>
-                            <td t-attf-class="text-end small-font {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                            <td t-attf-class="text-end line-font {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                 <span class="text-nowrap" t-field="line.price_unit"/>
                             </td>
                             <td t-if="display_discount"
-                                t-attf-class="small-font text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                t-attf-class="line-font text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                 <span class="text-nowrap" t-field="line.discount"/>
                             </td>
-                            <td t-attf-class="small-font text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                            <td t-attf-class="line-font text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                 <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_ids))"
                                       id="line_tax_ids"/>
                             </td>
-                            <td class="text-end small-font o_price_total">
+                            <td class="text-end line-font o_price_total">
                                 <span class="text-nowrap" t-field="line.price_subtotal"
                                       groups="account.group_show_line_subtotals_tax_excluded"/>
                                 <span class="text-nowrap" t-field="line.price_total"
@@ -66,14 +66,14 @@
 
                         <t t-if="line.display_type == 'line_section'">
                             <td colspan="99">
-                                <span t-field="line.name" t-options="{'widget': 'text'}"/>
+                                <span t-field="line.name" class="section-note-font" t-options="{'widget': 'text'}"/>
                             </td>
                             <t t-set="current_section" t-value="line"/>
                             <t t-set="current_subtotal" t-value="0"/>
                         </t>
                         <t t-if="line.display_type == 'line_note'">
                             <td colspan="99">
-                                <span t-field="line.name" t-options="{'widget': 'text'}"/>
+                                <span t-field="line.name" class="section-note-font" t-options="{'widget': 'text'}"/>
                             </td>
                         </t>
                     </tr>
@@ -90,8 +90,11 @@
                 </t>
             </tbody>
             <style>
-                .small-font{
-                font-size: 12px !important;
+                .line-font{
+                font-size: 13px !important;
+                }
+                .section-note-font{
+                font-size: 14px !important;
                 }
             </style>
         </xpath>
