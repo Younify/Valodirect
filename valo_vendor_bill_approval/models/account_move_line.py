@@ -18,20 +18,40 @@ class AccountMoveLine(models.Model):
         ('no','No')
     ],'Release Pay Qty Status', readonly=True)
 
+    approval_status = fields.Selection(selection=[
+            ('no', 'No'),
+            ('yes', 'Yes'),
+            ('waiting', 'Waiting'),
+        ],
+        string="Approval Status", readonly=True, compute='_compute_approval_status', store=True)
+
     approver_user_id = fields.Many2many('res.users','account_move_line_approver_rel',readonly=True,compute='update_approval_list', store=True)
     manual_approver_user_id = fields.Many2many('res.users','account_move_line_manual_approver_rel')
 
     approved_by_user_id = fields.Many2one('res.users', readonly=True)
     approval_date = fields.Datetime('Approval date', readonly=True)
 
+    @api.depends('release_to_pay_unit_price_status','release_to_pay_qty_status')
+    def _compute_approval_status(self):
+        for line in self:
+            if line.release_to_pay_unit_price_status == 'yes' and line.release_to_pay_qty_status == 'yes':
+                line.approval_status = 'yes'
+            elif line.release_to_pay_unit_price_status == 'no' or line.release_to_pay_qty_status == 'no':
+                line.approval_status = 'no'
+            else:
+                line.approval_status = 'waiting'
+
+
     @api.onchange('product_id')
     def onchange_product_id_analytic(self):
         for line in self:
+            print('we are here')
             if line.product_id.analytic_account_id:
                 line.analytic_distribution =  {line.product_id.analytic_account_id.id:100}
 
     @api.depends('analytic_line_ids')
     def update_approval_list(self):
+        print('we are here')
         print(self)
         for line in self:
 

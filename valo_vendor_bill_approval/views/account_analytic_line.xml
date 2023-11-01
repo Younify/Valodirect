@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_account_analytic_line_tree_move_status" model="ir.ui.view">
+        <field name="name">view_account_analytic_line_tree_move_status</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="analytic.view_account_analytic_line_tree" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="move_state" optional="hide" />
+                <field name="payment_state" optional="hide" />
+                <field name="approval_status" optional="hide" />
+            </field>
+        </field>
+    </record>
+
+</odoo>
