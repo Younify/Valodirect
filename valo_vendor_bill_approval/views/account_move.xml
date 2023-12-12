@@ -15,8 +15,9 @@
                         decoration-warning="release_to_pay == 'waiting'"
                         decoration-success="release_to_pay == 'yes'" />
 
-                </field>
+                    <field name="analytic_account_ids" widget="many2many_tags" optional="hide" />
 
+                </field>
             </field>
 
         </record>
