@@ -6,6 +6,8 @@ from datetime import datetime
 class accountSecurity(models.Model):
     _inherit = 'account.move'
     
+    analytic_account_ids = fields.Many2many(comodel_name='account.analytic.account', compute='_compute_analytic_account_ids',store=True)
+
     approval_line_id = fields.One2many(comodel_name='account.move.approver',inverse_name='move_id')
     pending_approvers = fields.Many2many(comodel_name='res.users',relation='account_move_approver_rel',string='Pending Approvers',store=True,compute='_compute_pending_approvers')
     release_to_pay = fields.Selection(selection_add=[
@@ -19,6 +21,12 @@ class accountSecurity(models.Model):
             waiting_lines = move.invoice_line_ids.filtered(lambda l: l.release_to_pay_unit_price_status == 'waiting' or l.release_to_pay_qty_status == 'waiting')
             users |= waiting_lines.approver_user_id
             move.pending_approvers = users
+
+    @api.depends('invoice_line_ids.analytic_line_ids.account_id')
+    def _compute_analytic_account_ids(self):
+        for move in self:
+            lines = move.invoice_line_ids
+            move.analytic_account_ids = lines.analytic_line_ids.account_id.ids
 
     def update_approval_line_id(self):
         for move in self:
